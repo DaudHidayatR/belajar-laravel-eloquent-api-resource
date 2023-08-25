@@ -34,3 +34,7 @@ Route::get('/products/{id}', function ($id){
     $product = \App\Models\Product::findOrFail($id);
     return new \App\Http\Resources\ProductResource($product);
 });
+Route::get('/products', function (){
+    $products = \App\Models\Product::all();
+    return \App\Http\Resources\ProductResource::collection($products);
+});
