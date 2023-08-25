@@ -29,3 +29,8 @@ Route::get('/categories-custom', function (){
     $categories = \App\Models\Category::all();
     return new \App\Http\Resources\CategoryCollection($categories);
 });
+
+Route::get('/products/{id}', function ($id){
+    $product = \App\Models\Product::findOrFail($id);
+    return new \App\Http\Resources\ProductResource($product);
+});
