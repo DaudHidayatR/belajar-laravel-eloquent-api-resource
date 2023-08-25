@@ -25,3 +25,7 @@ Route::get('categories', function (){
     $categories = \App\Models\Category::all();
     return \App\Http\Resources\CategoryResource::collection($categories);
 });
+Route::get('/categories-custom', function (){
+    $categories = \App\Models\Category::all();
+    return new \App\Http\Resources\CategoryCollection($categories);
+});
