@@ -31,4 +31,32 @@ class CategoryTest extends TestCase
                 ],
             ]);
     }
+
+    public function testResourceCollection()
+    {
+        $this->seed(CategorySeeder::class);
+
+        $all = Category::all();
+
+        $this->get('/api/categories')
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    [
+                        'id' => $all[0]->id,
+                        'name' => $all[0]->name,
+                        'created_at' => $all[0]->created_at->toJSON(),
+                        'updated_at' => $all[0]->updated_at->toJSON(),
+                    ],
+                    [
+                        'id' => $all[1]->id,
+                        'name' => $all[1]->name,
+                        'created_at' => $all[1]->created_at->toJSON(),
+                        'updated_at' => $all[1]->updated_at->toJSON(),
+                    ],
+                ],
+            ]);
+
+    }
+
 }
