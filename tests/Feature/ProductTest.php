@@ -63,4 +63,29 @@ class ProductTest extends TestCase
         self::assertNotNull('data');
     }
 
+    public function testAdditionalMetadata()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+        $products = Product::first();
+        $response = $this->get('api/products-debug/1')
+            ->assertStatus(200)
+        ->assertJson([
+            'author' => 'Daud Hidayat Ramadhan',
+            'data'=> [
+                'id' => $products->id,
+                'category_id' => $products->category_id,
+                'category' => [
+                    'id' => $products->category->id,
+                    'name' => $products->category->name
+                ],
+                'name' => $products->name,
+                'price' => $products->price,
+                'created_at' => $products->created_at->toJSON(),
+                'updated_at' => $products->updated_at->toJSON()
+            ]
+        ]);
+        self::assertNotNull($response->json('server_time'));
+    }
+
+
 }
