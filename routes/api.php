@@ -33,11 +33,13 @@ Route::get('/categories-custom', function (){
 Route::get('/products/{id}', function ($id){
     $product = \App\Models\Product::findOrFail($id);
     $product->load('category');
-    return new \App\Http\Resources\ProductResource($product);
+    return (new \App\Http\Resources\ProductResource($product))
+        ->response()
+        ->header('X-Powered-By', 'Daud Hidayat Ramadhan');
 });
 Route::get('/products', function (){
     $products = \App\Models\Product::with('category')->get();
-    return \App\Http\Resources\ProductResource::collection($products);
+    return new \App\Http\Resources\ProductCollection($products);
 });
 Route::get('/products-paging', function (Request $request){
     $page = $request->get('page', 1);

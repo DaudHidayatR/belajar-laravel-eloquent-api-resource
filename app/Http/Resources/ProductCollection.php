@@ -2,11 +2,13 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ProductCollection extends ResourceCollection
 {
+    public static $wrap = 'data';
     /**
      * Transform the resource collection into an array.
      *
@@ -17,5 +19,9 @@ class ProductCollection extends ResourceCollection
         return[
             'data' => ProductResource::collection($this->collection),
         ];
+    }
+    public function withResponse(Request $request, JsonResponse $response): void
+    {
+        $response->header('X-Powered-By', 'Daud Hidayat Ramadhan');
     }
 }

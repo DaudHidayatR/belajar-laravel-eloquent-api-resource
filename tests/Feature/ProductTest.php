@@ -21,6 +21,7 @@ class ProductTest extends TestCase
         $products = Product::first();
 
         $this->get("/api/products/$products->id")->assertStatus(200)
+            ->assertHeader('X-Powered-By', 'Daud Hidayat Ramadhan')
             ->assertJson([
             'value' => [
                 'name' => $products->name,
@@ -42,7 +43,8 @@ class ProductTest extends TestCase
 
 
         $response =$this->get('/api/products')
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertHeader('X-Powered-By', 'Daud Hidayat Ramadhan');
         $names = $response->json('data.*.name');
         for ($i = 1; $i <= 10; $i++) {
             self::assertContains("Product $i of Food", $names);
